@@ -59,6 +59,9 @@ class ResourceDictionary(collections.MutableMapping):
             self.store[key] = l
             self.inverse[l] = key
 
+    def getKeys(self):
+        return self.store.keys()
+
     def add(self, key):
         if key in self.store:
             return self.store[key]

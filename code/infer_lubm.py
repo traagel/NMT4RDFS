@@ -111,7 +111,7 @@ def main():
     inference_model.summary()
 
     logging.info("Loading trained nn weights from: %s", model_path+"/best_model")
-    inference_model.load_weights(model_path+"/best_model")
+    inference_model.load_weights(r"C:\Users\martt\PycharmProjects\NMT4RDFS\data\lubm1_intact\training\model\14_02_2023_00_13_10\lubm_nn.json")
 
 
 
