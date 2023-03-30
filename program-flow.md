@@ -15,7 +15,7 @@
    2) get_lubm_properties()
    3) get_lubm_properties_groups (_subProperty of imported properties_)
 1) **These functions read data from either:**
-   1) Local GraphQL instance
+   1) Local GraphDB instance
    2) Local files:
       1) /data/lubm1_intact/encoding/lubm_classes.pz
       2) /data/lubm1_intact/encoding/properties.pz
