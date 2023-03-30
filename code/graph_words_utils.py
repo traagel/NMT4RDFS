@@ -20,6 +20,7 @@ def encode_graphs_list(graph_words_encoder, files_df, rdf_format):
     files_df['resources_dictionary'] = resources_dictionaries
     files_df['input_graph_encoding'] = input_graphs_encodings
     files_df['inference_graph_encoding'] = inference_graphs_encodings
+    files_df.to_csv('encoding.csv')
     return files_df
 
 

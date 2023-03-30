@@ -41,7 +41,7 @@ class GraphWordsEncoder:
                 resource_id = local_resources[property_group][resource]
                 return resource_id
 
-    def encode_graph(self, graph, local_resources={}, inference=False, verbose=True, skip_bnodes=True,
+    def encode_graph(self, graph, local_resources={}, inference=False, verbose=False, skip_bnodes=True,
                      skip_type_resource=True, skip_type_class=True):
         if not inference:
             local_resources = {}
@@ -51,21 +51,21 @@ class GraphWordsEncoder:
         for subject, property, object in sorted(triples_list, key=self.properties_order):
             if property not in self.properties_dictionary:
                 graph.remove((subject, property, object))
-                print("1")
+
                 continue
+
             if skip_bnodes and (type(subject) == BNode or type(object) == BNode):
                 graph.remove((subject, property, object))
-                print("2")
+
                 continue
 
             if skip_type_resource and (property, object) == (RDF.type, RDFS.Resource):
                 graph.remove((subject, property, object))
-                print("3")
                 continue
 
             if skip_type_class and (property, object) == (RDF.type, RDFS.Class):
                 graph.remove((subject, property, object))
-                print("3")
+
                 continue
 
             if inference and object in self.classes_resources:
@@ -79,11 +79,10 @@ class GraphWordsEncoder:
             property_id = self.active_properties[property]
             subject_id = self.resource_to_id(local_resources, subject, property)
             object_id = self.resource_to_id(local_resources, object, property)
-            print(property_id, subject_id, object_id)
+            #print(property_id, subject_id, object_id)
             if property_id not in encoding:
                 encoding[property_id] = []
             encoding[property_id].append((subject_id, object_id))
-            print(self.active_properties.getKeys())
         return encoding, local_resources
 
     def graph_encoding_to_np(self, graph_encoding, offset, size):

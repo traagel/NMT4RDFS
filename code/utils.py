@@ -62,6 +62,9 @@ class ResourceDictionary(collections.MutableMapping):
     def getKeys(self):
         return self.store.keys()
 
+    def getValues(self):
+        return self.store.values()
+
     def add(self, key):
         if key in self.store:
             return self.store[key]
