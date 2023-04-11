@@ -41,7 +41,7 @@ class GraphWordsEncoder:
                 resource_id = local_resources[property_group][resource]
                 return resource_id
 
-    def encode_graph(self, graph, local_resources={}, inference=False, verbose=False, skip_bnodes=True,
+    def encode_graph(self, graph, local_resources={}, inference=False, verbose=True, skip_bnodes=True,
                      skip_type_resource=True, skip_type_class=True):
         if not inference:
             local_resources = {}
@@ -73,12 +73,15 @@ class GraphWordsEncoder:
             if not inference:
                 self.add_resource(local_resources, subject, property)
                 self.add_resource(local_resources, object, property)
-            if verbose:
-                print(subject, property, object)
+
             self.active_properties.add(property)
             property_id = self.active_properties[property]
             subject_id = self.resource_to_id(local_resources, subject, property)
             object_id = self.resource_to_id(local_resources, object, property)
+
+            if verbose:
+                print(subject, property, object)
+                print(subject_id, property_id, object_id)
             #print(property_id, subject_id, object_id)
             if property_id not in encoding:
                 encoding[property_id] = []
