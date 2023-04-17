@@ -12,6 +12,7 @@ class GraphWordsEncoder:
         self.active_properties = ResourceDictionary()
         self.active_properties.add(RDF.type)
         self.active_classes = ResourceDictionary()
+        self.number = 0
 
     def add_resource(self, local_resources, resource, property_uri):
         self.active_properties.add(property_uri)
@@ -47,7 +48,8 @@ class GraphWordsEncoder:
             local_resources = {}
         encoding = {}
         triples_list = sorted(list(graph))
-
+        # print(f"GRAPH NUMBER: {self.number}")
+        # time.sleep(5)
         for subject, property, object in sorted(triples_list, key=self.properties_order):
             if property not in self.properties_dictionary:
                 graph.remove((subject, property, object))
@@ -82,10 +84,11 @@ class GraphWordsEncoder:
             if verbose:
                 print(subject, property, object)
                 print(subject_id, property_id, object_id)
-            #print(property_id, subject_id, object_id)
+            # print(property_id, subject_id, object_id)
             if property_id not in encoding:
                 encoding[property_id] = []
             encoding[property_id].append((subject_id, object_id))
+        # self.number += 1
         return encoding, local_resources
 
     def graph_encoding_to_np(self, graph_encoding, offset, size):

@@ -104,6 +104,7 @@ def encode_lubm_dataset():
     lubm_files_df = get_lubm_files_df()
     logging.info("Encoding LUBM1 dataset")
     lubm_files_df = encode_graphs_list(lubm_graph_words_encoder, lubm_files_df, "nt")
+    lubm_files_df.to_csv('file_List.csv')
     lubm_files_df.to_pickle(LUBM_ENCODING_DIRECTORY + DATASET_ENCODING_FILE)
     serialize(lubm_graph_words_encoder, LUBM_ENCODING_DIRECTORY + GRAPH_WORDS_ENCODER)
     return lubm_files_df, lubm_graph_words_encoder
