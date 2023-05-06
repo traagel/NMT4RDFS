@@ -119,9 +119,11 @@ def create_lubm_graph_words(lubm_dataset, lubm_graph_words_encoder):
         lubm_dataset['inference_graph_encoding'], len(lubm_graph_words_encoder.active_properties))
     lubm_dataset['input_graph_words'] = input_graph_words.tolist()
     lubm_dataset['inference_graph_words'] = inference_graph_words.tolist()
+    lubm_dataset.to_csv('graph_words_test.csv')
     serialize(input_graph_words_catalogue, LUBM_ENCODING_DIRECTORY + INPUT_GRAPH_WORDS_CATALOGUE_FILE)
     serialize(inference_graph_words_catalogue, LUBM_ENCODING_DIRECTORY + INFERENCE_GRAPH_WORDS_CATALOGUE_FILE)
     lubm_dataset.to_pickle(LUBM_ENCODING_DIRECTORY + DATASET_ENCODING_FILE)
+
     return lubm_dataset, input_graph_words_catalogue, inference_graph_words_catalogue
 
 

@@ -18,37 +18,38 @@ class GraphWordsEncoder:
         self.active_properties.add(property_uri)
         property_group = self.properties_groups[property_uri]
         rdf_type_group = self.properties_groups[RDF.type]
-
+        print(f"Property: {property_uri}, property group: {property_group}, rdf type group: {rdf_type_group}")
         if resource in self.classes_resources:
             self.active_classes.add(resource)
-
+            print(f"Added class {resource} to active classes")
         else:
             if property_group not in local_resources:
                 local_resources[property_group] = ResourceDictionary(negative=True)
-
+                print(f"Added property group {property_group} to local resources")
             if rdf_type_group not in local_resources:
                 local_resources[rdf_type_group] = ResourceDictionary(negative=True)
-
+                print(f"Added rdf type group {rdf_type_group} to local resources")
             local_resources[property_group].add(resource)
-
+            print(f"Added resource {resource} to local resources")
             if type(resource) == URIRef:
                 local_resources[rdf_type_group].add(resource)
+                print(f"Added resource {resource} to local resources")
 
     def resource_to_id(self, local_resources, resource, property_uri):
         property_group = self.properties_groups[property_uri]
-
+        print(f"Looking up resource for property group {property_group}: {resource}")
         if property_group in self.active_classes:
             resource_id = self.active_classes[resource]
-
+            print(f"Resource {resource} is a class and is in active classes, returning {resource_id}")
             return resource_id
         else:
             if resource in self.active_classes:
                 resource_id = self.active_classes[resource]
-
+                print(f"Resource {resource} is a class and is in active classes, returning {resource_id}")
                 return resource_id
             else:
                 resource_id = local_resources[property_group][resource]
-
+                print(f"Resource {resource} is not a class and is in local resources, returning {resource_id}")
                 return resource_id
 
     def encode_graph(self, graph, local_resources={}, inference=False, verbose=True, skip_bnodes=True,
@@ -60,7 +61,9 @@ class GraphWordsEncoder:
         # print(f"GRAPH NUMBER: {self.number}")
         # time.sleep(5)
         for subject, property, object in sorted(triples_list, key=self.properties_order):
-
+            print(f"Subject: {subject},\n "
+                  f"property: {property},\n "
+                  f"object: {object}")
             if property not in self.properties_dictionary:
                 graph.remove((subject, property, object))
 
@@ -79,7 +82,7 @@ class GraphWordsEncoder:
                 graph.remove((subject, property, object))
 
                 continue
-
+            print(f"Adding resource {subject} to local resources")
             if inference and object in self.classes_resources:
                 self.active_classes.add(object)
             if not inference:
@@ -87,7 +90,8 @@ class GraphWordsEncoder:
                 self.add_resource(local_resources, object, property)
 
             self.active_properties.add(property)
-
+            print(f"\n")
+            print(f"Retrieving ids for {subject}, {property}, {object}")
             property_id = self.active_properties[property]
             subject_id = self.resource_to_id(local_resources, subject, property)
             object_id = self.resource_to_id(local_resources, object, property)

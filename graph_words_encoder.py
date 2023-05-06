@@ -51,7 +51,7 @@ class GraphWordsEncoder:
 
                 return resource_id
 
-    def encode_graph(self, graph, local_resources={}, inference=False, verbose=True, skip_bnodes=True,
+    def encode_graph(self, graph, local_resources={}, inference=False, verbose=False, skip_bnodes=True,
                      skip_type_resource=True, skip_type_class=True):
         if not inference:
             local_resources = {}
@@ -95,6 +95,7 @@ class GraphWordsEncoder:
             if verbose:
                 print(subject, property, object)
                 print(subject_id, property_id, object_id)
+                print(f"Inference: {inference}")
                 print()
             # print(property_id, subject_id, object_id)
             if property_id not in encoding:

@@ -110,6 +110,7 @@ def main():
 
     inference_model = create_graph_words_translation_model(x_train, y_train)
     logging.info("Saving Neural Network model architecture into: %s", MODEL_FOLDER + MODEL_ARCHITECTURE)
+
     with open(MODEL_FOLDER + MODEL_ARCHITECTURE, "w") as json_file:
         json_file.write(inference_model.to_json())
 
@@ -117,12 +118,12 @@ def main():
     inference_model.summary()
 
     logging.info("Starting training for %s epochs ", EPOCHS)
-    #inference_model.fit(x_train, y_train, validation_data=(x_val, y_val), epochs=EPOCHS, batch_size=BATCH_SIZE,
-    #                    callbacks=[csv_logger, tensorboard, modelcheckpoint])
+    inference_model.fit(x_train, y_train, validation_data=(x_val, y_val), epochs=EPOCHS, batch_size=BATCH_SIZE,
+                        callbacks=[csv_logger, tensorboard, modelcheckpoint])
     logging.info("Finished training")
     logging.info("Evaluating on test set")
-    #test_eval = inference_model.evaluate(x_test, y_test)
-    #logging.info("Test set accuracy: %s", test_eval[inference_model.metrics_names.index('true_acc')])
+    # test_eval = inference_model.evaluate(x_test, y_test)
+    # logging.info("Test set accuracy: %s", test_eval[inference_model.metrics_names.index('true_acc')])
 
 
 if __name__ == "__main__":
